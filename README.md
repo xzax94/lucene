@@ -16,7 +16,7 @@ Link: https://www.kaggle.com/datasets/sankha1998/tmdb-top-10000-popular-movies-d
 * vote_count
 * vote_average
 
-## Structure
+## Προεπεξεργασία
 * Διαβάζουμε από το δίσκο το CSV αρχείο
 * Το κάνουμε tokenize χωρίζοντας τα tokens με "," μιας και είναι CSV αρχείο
 * Για κάθε γραμμή φτιάχνουμε Documents με fields αυτά που αναφέρουμε πιο πάνω
