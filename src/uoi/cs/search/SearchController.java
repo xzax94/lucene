@@ -28,6 +28,9 @@ import javafx.scene.web.WebView;
 import uoi.cs.html.HtmlCache;
 import uoi.cs.movie.Movie;
 import uoi.cs.page.PageList;
+import uoi.cs.search.strategy.NoFilterSortStrategy;
+import uoi.cs.search.strategy.SortStrategy;
+import uoi.cs.search.strategy.SortStrategyFactory;
 
 public final class SearchController implements Initializable
 {
@@ -54,7 +57,12 @@ public final class SearchController implements Initializable
 	private ChoiceBox<String> choiceBox;
 	
 	@FXML
+	private ChoiceBox<String> sortBox;
+	
+	@FXML
 	private WebView webView;
+	
+	private volatile SortStrategy sortStrategy = new NoFilterSortStrategy();
 	
 	@FXML
 	private final synchronized void onSearch()
@@ -69,12 +77,16 @@ public final class SearchController implements Initializable
 	}
 
 	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle) 
+	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
 		hideButton(previousButton);
 		hideButton(nextButton);
 		choiceBox.setItems(FXCollections.observableArrayList(List.of("All", "Title", "Overview")));
 		choiceBox.setValue("All");
+		
+		sortBox.setItems(FXCollections.observableArrayList(List.of("None", "Vote Count Asc", "Vote Count Desc", "Vote Average Asc", "Vote Average Desc")));
+		sortBox.setValue("None");
+		sortBox.setOnAction(action -> updateSortStrategy());
 		
 		textField.setOnKeyPressed(event -> {
 			if (KeyCode.ENTER.equals(event.getCode()))
@@ -128,6 +140,13 @@ public final class SearchController implements Initializable
 		updateTable();
 	}
 	
+	private final void updateSortStrategy()
+	{
+		final SortStrategyFactory factory = new SortStrategyFactory();
+		sortStrategy = factory.createNewInstance(sortBox.getValue());
+		updateTable();
+	}
+	
 	private final boolean isEmpty(String string)
 	{
 		return string == null || string.length() == 0;
@@ -175,7 +194,7 @@ public final class SearchController implements Initializable
 	
 	private final void updateTable()
 	{
-		final PageList<Movie> pageList = PageList.createNewBuilder(history.getLastSearch().getResults()).limit(MOVIES_PER_PAGE).build();
+		final PageList<Movie> pageList = PageList.createNewBuilder(history.getLastSearch().getResults()).sorted(sortStrategy.getComparator()).limit(MOVIES_PER_PAGE).build();
 		final List<Movie> list = pageList.getPage(pageIndex.get());
 
 		final StringBuilder builder = new StringBuilder();
@@ -183,7 +202,7 @@ public final class SearchController implements Initializable
 		{
 			builder.append("<tr>");
 			builder.append("<td width=150>" + movie.getTitle() + "</td>");
-			builder.append("<td width=400>" + movie.getDescription() + "</td>");
+			builder.append("<td width=700>" + movie.getDescription() + "</td>");
 			builder.append("<td width=100>" + movie.getLanguage() + "</td>");
 			builder.append("<td width=100>" + movie.getVoteCount() + "</td>");
 			builder.append("<td width=100>" + movie.getVoteAverage() + "</td>");
