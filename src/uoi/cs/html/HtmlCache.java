@@ -21,10 +21,9 @@ public class HtmlCache
 		
 		String content = cache.get(path.hashCode());
 		if (content == null)
-		{
 			content = loadFile(path);
-		}
-		return loadFile(path);
+		
+		return content;
 	}
 
 	private String loadFile(String path)
