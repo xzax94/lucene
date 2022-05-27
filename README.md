@@ -37,7 +37,7 @@ Link: https://www.kaggle.com/datasets/sankha1998/tmdb-top-10000-popular-movies-d
 
 # Ιστορικό αναζήτησης
 ![lucene_history](https://user-images.githubusercontent.com/92267146/170762477-7fe1b90f-5f39-4122-ab89-2a0af8bf4dfd.jpg)
-Κρατάμε πληροφορία για το search history και την προτείνουμε στον χρήστη εάν γράψει κάτι σχετικό. Στη συγκεκριμένη φωτογραφία ο χρήστης έχει αναζητήσει τα keywords "apollo", "apollo 11", "apollo 13" και "apollo 18"
+Κρατάμε πληροφορία για το search history και την προτείνουμε στον χρήστη εάν γράψει κάτι σχετικό. Στη συγκεκριμένη φωτογραφία ο χρήστης έχει αναζητήσει τα keywords "apollo", "apollo 10", "apollo 13" και "apollo 18"
 
 # Αναδιάταξη των αποτελεσμάτων
 ![lucene_sort](https://user-images.githubusercontent.com/92267146/170762800-63cfa9bc-1acc-4190-b0d9-093938bd42c2.jpg)
